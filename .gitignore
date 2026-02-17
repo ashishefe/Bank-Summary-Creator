@@ -1,0 +1,8 @@
+.env.local
+.DS_Store
+__pycache__/
+*.pyc
+bank_summary.db
+uploads/
+output/
+Bank Statements/

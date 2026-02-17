@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+
+{% block title %}Bank Summary Creator{% endblock %}
+
+{% block content %}
+<section class="hero">
+    <div class="hero-panel">
+        <span class="pill">Single-user tool</span>
+        <h2>What would you like to do today?</h2>
+        <p>Generate clean, CA-ready bank summaries or extend the platform with a brand new bank format.</p>
+        <div style="display: flex; gap: 12px; flex-wrap: wrap;">
+            <a href="/summary" class="btn btn-primary">Generate Summary</a>
+            <a href="/format" class="btn btn-ghost">Add Bank Format</a>
+        </div>
+    </div>
+    <div class="hero-panel">
+        <h2>Designed for Indian bank statements</h2>
+        <p>Text-based PDF statements only. No OCR. Unknown formats fall back to LLM parsing.</p>
+        <div class="action-grid">
+            <div class="action-card">
+                <h3>Parsing Intelligence</h3>
+                <p class="text-muted">Rule-based + LLM fallback for new layouts and formats.</p>
+            </div>
+            <div class="action-card">
+                <h3>Fast Excel Output</h3>
+                <p class="text-muted">Exact CA format, monthly FY breakdown, auto totals.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<div class="card">
+    <h2 class="card-title">Supported Banks</h2>
+    <table>
+        <tr><th>Bank</th><th>Status</th></tr>
+        <tr><td>ICICI Bank</td><td><span class="badge badge-success">Supported</span></td></tr>
+        <tr><td>State Bank of India (SBI)</td><td><span class="badge badge-success">Supported</span></td></tr>
+        <tr><td>Kotak Mahindra Bank</td><td><span class="badge badge-success">Supported</span></td></tr>
+        <tr><td>IDBI Bank</td><td><span class="badge badge-warning">Best-effort</span></td></tr>
+        <tr><td>India Post</td><td><span class="badge badge-warning">Best-effort</span></td></tr>
+    </table>
+    <p class="text-muted" style="margin-top: 12px;">
+        Only digital PDF statements are supported. Scanned images and password-protected PDFs are skipped.
+    </p>
+</div>
+{% endblock %}

@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Problem You Already Know — Build Your Own Tax Tool</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,300..900&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <nav class="site-nav">
+    <div class="nav-inner">
+      <a href="index.html" class="nav-brand">CA Tax Tool Tutorial</a>
+      <ul class="nav-links">
+        <li><a href="index.html">The Problem</a></li>
+        <li><a href="what-this-unlocks.html">What You'll Build</a></li>
+        <li><a href="you-dont-need-a-developer.html">The Twist</a></li>
+        <li><a href="setup.html">Setup</a></li>
+        <li><a href="first-steps.html">First Steps</a></li>
+        <li><a href="get-started.html">Get Started</a></li>
+      </ul>
+    </div>
+  </nav>
+  <div class="progress-bar"><div class="progress-bar-fill" style="width: 16.66%"></div></div>
+
+  <main class="page-content">
+
+    <span class="page-label">Step 1 of 6</span>
+    <h1>The Problem You Already Know</h1>
+    <p class="page-subtitle">Tax season is a grind. You've lived this every year. Let's name it out loud.</p>
+
+    <p class="lead">Every assessment year, the same story plays out in CA offices across India. Clients trickle in with bank statements from four different banks, a Form 16 that arrived late, and a vague memory of "some mutual fund redemption last July." Your job is to turn this chaos into a precise, reconciled, error-free tax return. And you have about three months to do it for every single client.</p>
+
+    <div class="stat-grid">
+      <div class="stat-card">
+        <span class="stat-number">60-70</span>
+        <span class="stat-label">Hours per week during peak season</span>
+      </div>
+      <div class="stat-card">
+        <span class="stat-number">2-4 hrs</span>
+        <span class="stat-label">Per bank statement, manually</span>
+      </div>
+      <div class="stat-card">
+        <span class="stat-number">4-7</span>
+        <span class="stat-label">Different tools per client filing</span>
+      </div>
+      <div class="stat-card">
+        <span class="stat-number">1.5L+</span>
+        <span class="stat-label">AIS/ITR mismatch notices in 2024</span>
+      </div>
+    </div>
+
+    <h2>The Reconciliation Nightmare</h2>
+
+    <p>The real pain isn't any single step — it's the constant cross-referencing. You're jumping between the client's bank statements, their AIS download, Form 26AS from TRACES, Form 16 from their employer, and whatever investment proofs they managed to find.</p>
+
+    <p>All of this lives in Excel. Multiple tabs, manual lookups, VLOOKUP formulas that break when the format changes. You're comparing a TDS entry in 26AS against a credit in the bank statement, checking whether the AIS interest figure matches what the bank actually paid, and flagging anything that doesn't add up — because if you miss a mismatch, the notice lands on your client's doorstep.</p>
+
+    <p>And the formats. Every bank has its own PDF layout. Some put the date in DD/MM/YYYY, others use "15 Jan 2024." Some have the balance in the last column, others in the third. Multi-line remarks that span two rows. Opening balances that appear in different places — or don't appear at all.</p>
+
+    <div class="callout callout-insight">
+      <div class="callout-label">The real cost</div>
+      <p>It's not just your time. It's the mental load of holding all these cross-references in your head, across dozens of clients, hoping you don't miss the one mismatch that triggers a notice six months later.</p>
+    </div>
+
+    <h2>What If You Could Build a Tool That Handles All of This?</h2>
+
+    <p>Not someone else's tool, with someone else's assumptions about how you work. <strong>Your tool.</strong> One that understands Indian bank statement formats, knows what AIS reconciliation actually means, speaks the language of 26AS and Section 80C — because you built it with your domain expertise.</p>
+
+    <p>That's exactly what we're going to do. And you don't need to know how to code.</p>
+
+    <!-- Voiceover Script -->
+    <aside class="voiceover-section">
+      <button class="voiceover-toggle" aria-expanded="false">
+        <span class="toggle-icon">&#9654;</span>
+        Voiceover Script — Ashish
+      </button>
+      <div class="voiceover-content">
+        <p>Shantanu, you know exactly what I'm about to describe — because you've lived this. Every year, May hits and suddenly it's 12-hour days. You're staring at bank statement PDFs from ICICI, SBI, Kotak — every one with a different format. You're copy-pasting into Excel, cross-referencing with 26AS, checking AIS entries, and praying nothing slips through.</p>
+        <p>Last year alone, the IT department sent out over 1.5 lakh notices for mismatches between AIS and ITR. That's the kind of thing that keeps you up at night — did I catch everything? Did I miss that one FD interest entry?</p>
+        <p>Here's the thing — the hard part of this work isn't coding. It's knowing what "TDS under Section 194A" means, what reconciliation actually requires, what a CA's working papers need to look like. You already have that knowledge. What if you could turn that knowledge into a tool that does the boring parts for you? That's what this tutorial is about. Let's go.</p>
+        <div class="audio-player" data-page="index">Audio narration coming soon</div>
+      </div>
+    </aside>
+
+    <!-- Page Navigation -->
+    <nav class="page-nav">
+      <div></div>
+      <a href="what-this-unlocks.html" class="next">
+        <span class="nav-direction">Next &rarr;</span>
+        <span class="nav-title">What You'll Build</span>
+      </a>
+    </nav>
+
+  </main>
+
+  <script src="js/main.js"></script>
+</body>
+</html>

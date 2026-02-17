@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block title %}Start Summary{% endblock %}
+
+{% block content %}
+<div class="card" style="max-width: 720px; margin: 0 auto;">
+    <h2 class="card-title">Generate Bank Summary</h2>
+    <p class="card-subtitle">Start a new client session to upload statements and generate the Excel summary.</p>
+
+    <form action="/session/create" method="post">
+        <div class="form-group">
+            <label for="client_name">Name of Assessee</label>
+            <input type="text" id="client_name" name="client_name" placeholder="e.g., Sarita Hemant Gokhale" required>
+        </div>
+        <div class="form-group">
+            <label for="assessment_year">Assessment Year</label>
+            <select id="assessment_year" name="assessment_year">
+                <option value="2025-2026" selected>2025-2026</option>
+                <option value="2024-2025">2024-2025</option>
+                <option value="2026-2027">2026-2027</option>
+            </select>
+        </div>
+        <button type="submit" class="btn btn-primary">Start Session</button>
+    </form>
+</div>
+{% endblock %}

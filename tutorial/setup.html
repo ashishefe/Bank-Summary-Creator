@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Setting Up Claude Code on Windows — Build Your Own Tax Tool</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,300..900&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <nav class="site-nav">
+    <div class="nav-inner">
+      <a href="index.html" class="nav-brand">CA Tax Tool Tutorial</a>
+      <ul class="nav-links">
+        <li><a href="index.html">The Problem</a></li>
+        <li><a href="what-this-unlocks.html">What You'll Build</a></li>
+        <li><a href="you-dont-need-a-developer.html">The Twist</a></li>
+        <li><a href="setup.html">Setup</a></li>
+        <li><a href="first-steps.html">First Steps</a></li>
+        <li><a href="get-started.html">Get Started</a></li>
+      </ul>
+    </div>
+  </nav>
+  <div class="progress-bar"><div class="progress-bar-fill" style="width: 66.66%"></div></div>
+
+  <main class="page-content">
+
+    <span class="page-label">Step 4 of 6</span>
+    <h1>Setting Up Claude Code on Windows</h1>
+    <p class="page-subtitle">Everything you need, step by step. About 15 minutes total.</p>
+
+    <p class="lead">We need to install a few things on your Windows machine before Claude Code can run. Don't worry — each step is straightforward, and I'll tell you exactly what to expect.</p>
+
+    <div class="step-list">
+
+      <!-- Step 1 -->
+      <div class="step">
+        <h3>Install Node.js</h3>
+        <p>Node.js is a program that lets your computer run JavaScript — the language Claude Code is built with. You don't need to learn JavaScript; this is just plumbing that runs in the background.</p>
+        <p>Go to <a href="https://nodejs.org" target="_blank" rel="noopener">nodejs.org</a> and download the <strong>LTS</strong> version (the big green button). Run the installer — click Next, Next, Next, Finish. Accept all the defaults.</p>
+        <div class="step-note">
+          <strong>What you should see after:</strong> The installer finishes without errors. That's it — no need to open anything yet.
+        </div>
+      </div>
+
+      <!-- Step 2 -->
+      <div class="step">
+        <h3>Open Terminal (PowerShell)</h3>
+        <p>The Terminal is the text-based interface where you'll talk to Claude Code. Think of it like a command window — you type instructions, and the computer responds.</p>
+        <p>Press the <strong>Windows key</strong> on your keyboard, type <code>Terminal</code>, and click <strong>Windows Terminal</strong> (or "PowerShell" — either works). A dark window with a blinking cursor will open.</p>
+        <div class="step-note">
+          <strong>What you should see:</strong> A window with text like <code>PS C:\Users\YourName&gt;</code> and a blinking cursor. This is where you'll type all the commands below.
+        </div>
+      </div>
+
+      <!-- Step 3 -->
+      <div class="step">
+        <h3>Verify Node.js Installed Correctly</h3>
+        <p>Let's make sure Node.js installed properly. In your terminal, type:</p>
+        <div class="code-block"><code>node --version</code></div>
+        <div class="step-note">
+          <strong>What you should see:</strong> Something like <code>v22.x.x</code> (the exact number doesn't matter, as long as it shows a version). If you see an error like "not recognized," close the terminal, reopen it, and try again — sometimes Windows needs a fresh terminal to pick up new programs.
+        </div>
+      </div>
+
+      <!-- Step 4 -->
+      <div class="step">
+        <h3>Install Claude Code</h3>
+        <p>Now we install Claude Code itself. Type this command in your terminal:</p>
+        <div class="code-block"><code>npm install -g @anthropic-ai/claude-code</code></div>
+        <p><code>npm</code> is the package manager that came with Node.js — it downloads and installs programs. This command installs Claude Code globally on your machine so you can use it from any folder.</p>
+        <div class="step-note">
+          <strong>What you should see:</strong> A bunch of text scrolling by as it downloads. It may take a minute or two. When it's done, you'll see your cursor again with no error messages in red. If you see warnings (yellow text), those are fine — warnings are not errors.
+        </div>
+      </div>
+
+      <!-- Step 5 -->
+      <div class="step">
+        <h3>Set Up Claude Max Subscription</h3>
+        <p>Claude Code requires a <strong>Claude Max subscription</strong> from Anthropic. This is a monthly plan that gives you unlimited usage — perfect for a project like this.</p>
+        <p>Go to <a href="https://claude.ai" target="_blank" rel="noopener">claude.ai</a>, create an account (if you don't have one), and subscribe to the Max plan. You'll need this before Claude Code can authenticate.</p>
+        <div class="step-note">
+          <strong>What you should see:</strong> A confirmed subscription on your Claude account page. Keep your login credentials handy — you'll need them in a moment.
+        </div>
+      </div>
+
+      <!-- Step 6 -->
+      <div class="step">
+        <h3>Create Your Workspace</h3>
+        <p>Let's create a folder where all your projects will live. In your terminal:</p>
+        <div class="code-block"><code>mkdir Projects
+cd Projects</code></div>
+        <p><code>mkdir</code> creates a new folder. <code>cd</code> moves you into it. Simple as that.</p>
+        <div class="step-note">
+          <strong>What you should see:</strong> Your terminal prompt changes to show <code>PS C:\Users\YourName\Projects&gt;</code>. You're now inside your new Projects folder.
+        </div>
+      </div>
+
+      <!-- Step 7 -->
+      <div class="step">
+        <h3>Run Claude Code for the First Time</h3>
+        <p>The moment of truth. Type:</p>
+        <div class="code-block"><code>claude</code></div>
+        <p>The first time you run this, Claude Code will ask you to log in. It will open your web browser to authenticate with your Anthropic account. Log in, approve the connection, and come back to your terminal.</p>
+        <div class="step-note">
+          <strong>What you should see:</strong> After authentication, Claude Code starts up in your terminal. You'll see a welcome message and a prompt where you can start typing. If you see this — congratulations, you're set up!
+        </div>
+      </div>
+
+    </div>
+
+    <div class="callout callout-warning">
+      <div class="callout-label">Something went wrong?</div>
+      <p>If any step doesn't work as described, don't struggle alone. Take a screenshot of the error message and send it to Ashish on WhatsApp. Most setup issues are small things — a typo, a permission setting, a restart needed — and are quick to fix.</p>
+    </div>
+
+    <div class="callout callout-tip">
+      <div class="callout-label">Pro tip</div>
+      <p>You can always type <code>claude</code> in any terminal window to start a conversation with Claude Code. It's like opening a chat — except this chat can read files, write code, and run commands on your computer.</p>
+    </div>
+
+    <!-- Voiceover Script -->
+    <aside class="voiceover-section">
+      <button class="voiceover-toggle" aria-expanded="false">
+        <span class="toggle-icon">&#9654;</span>
+        Voiceover Script — Ashish
+      </button>
+      <div class="voiceover-content">
+        <p>Okay Shantanu, let's get your machine ready. Don't worry if this feels new — I'll walk you through every step, and if anything goes wrong, just WhatsApp me a screenshot.</p>
+        <p>First, we install Node.js — just go to nodejs.org, download the big green button, and click Next-Next-Finish. That's it. Then open Terminal — press the Windows key, type "Terminal," and click it. You'll see a dark window with a cursor — that's where we work.</p>
+        <p>Type <code>node --version</code> to make sure it installed. You should see a version number. Then install Claude Code with <code>npm install -g @anthropic-ai/claude-code</code> — just copy-paste that command. It'll download for a minute, and when it's done, you're almost there.</p>
+        <p>Make sure you have your Claude Max subscription set up at claude.ai. Then create a folder — <code>mkdir Projects</code>, <code>cd Projects</code> — and type <code>claude</code>. It'll ask you to log in through your browser, and once you're back in the terminal — you're in. That's it. You're ready to code. Well, ready to tell Claude to code for you.</p>
+        <div class="audio-player" data-page="setup">Audio narration coming soon</div>
+      </div>
+    </aside>
+
+    <!-- Page Navigation -->
+    <nav class="page-nav">
+      <a href="you-dont-need-a-developer.html">
+        <span class="nav-direction">&larr; Previous</span>
+        <span class="nav-title">The Twist</span>
+      </a>
+      <a href="first-steps.html" class="next">
+        <span class="nav-direction">Next &rarr;</span>
+        <span class="nav-title">Your First Claude Code Session</span>
+      </a>
+    </nav>
+
+  </main>
+
+  <script src="js/main.js"></script>
+</body>
+</html>

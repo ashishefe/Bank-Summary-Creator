@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+{% block title %}Download Summary{% endblock %}
+
+{% block content %}
+<div class="steps">
+    <span class="step done">1. Upload</span>
+    <span class="step done">2. Review</span>
+    <span class="step done">3. Dashboard</span>
+    <span class="step active">4. Download</span>
+</div>
+
+<div class="card" style="text-align: center; padding: 40px;">
+    {% if has_file %}
+    <h2 class="card-title" style="color: #2b7a5b; margin-bottom: 16px;">Bank Summary Generated</h2>
+    <p class="text-muted" style="margin-bottom: 24px;">
+        Client: <strong>{{ session.client_name }}</strong> |
+        Assessment Year: <strong>{{ session.assessment_year }}</strong> |
+        Accounts: <strong>{{ session.accounts|length }}</strong>
+    </p>
+    <a href="/download/{{ session_id }}/file" class="btn btn-success" style="font-size: 16px; padding: 14px 40px;">
+        Download Bank Summary Excel
+    </a>
+    <div style="margin-top: 24px;">
+        <a href="/dashboard/{{ session_id }}" class="btn btn-secondary btn-sm">Back to Dashboard</a>
+        <a href="/review/{{ session_id }}" class="btn btn-secondary btn-sm" style="margin-left: 8px;">Back to Review</a>
+        <a href="/" class="btn btn-secondary btn-sm" style="margin-left: 8px;">New Session</a>
+    </div>
+    {% else %}
+    <h2 class="card-title" style="color: #c4653f;">No Summary Available</h2>
+    <p class="text-muted">Please upload statements and generate a summary first.</p>
+    <a href="/" class="btn btn-primary">Start Over</a>
+    {% endif %}
+</div>
+{% endblock %}

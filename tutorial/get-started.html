@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>You're Off to the Races — Build Your Own Tax Tool</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,300..900&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <nav class="site-nav">
+    <div class="nav-inner">
+      <a href="index.html" class="nav-brand">CA Tax Tool Tutorial</a>
+      <ul class="nav-links">
+        <li><a href="index.html">The Problem</a></li>
+        <li><a href="what-this-unlocks.html">What You'll Build</a></li>
+        <li><a href="you-dont-need-a-developer.html">The Twist</a></li>
+        <li><a href="setup.html">Setup</a></li>
+        <li><a href="first-steps.html">First Steps</a></li>
+        <li><a href="get-started.html">Get Started</a></li>
+      </ul>
+    </div>
+  </nav>
+  <div class="progress-bar"><div class="progress-bar-fill" style="width: 100%"></div></div>
+
+  <main class="page-content">
+
+    <span class="page-label">Step 6 of 6</span>
+    <h1>You're Off to the Races</h1>
+    <p class="page-subtitle">Everything is set up. Here's how to start building.</p>
+
+    <p class="lead">You have Claude Code installed, the starter project cloned, and you understand the key commands. Now it's time to start building Phase 1 of your tax tool.</p>
+
+    <h2>Your First Real Task</h2>
+
+    <p>Open your terminal, navigate to the project folder, and start Claude Code:</p>
+
+    <div class="code-block"><code>cd Projects\Bank-Summary-Creator
+claude</code></div>
+
+    <p>Once Claude is running, type <code>/plan</code> to enter plan mode, then paste the contents of the PRD (the product requirements document that's already in your project at <code>tasks/PRD.md</code>). Or simply tell Claude:</p>
+
+    <div class="code-block"><code>Read tasks/PRD.md and plan Phase 1 implementation</code></div>
+
+    <h2>What Happens Next</h2>
+
+    <p>Claude will:</p>
+    <ol>
+      <li><strong>Read the PRD</strong> — it understands the full scope of what you're building</li>
+      <li><strong>Read the existing code</strong> — the starter project already has working bank parsers, a categorizer, and an Excel generator</li>
+      <li><strong>Ask clarifying questions</strong> — "Should I focus on session persistence first, or parser reliability?" Answer based on what matters most to you</li>
+      <li><strong>Propose a plan</strong> — a step-by-step breakdown of what it will build, in what order</li>
+      <li><strong>Wait for your approval</strong> — you review the plan, suggest changes, and give the green light</li>
+    </ol>
+
+    <p>Then Claude starts coding. It writes files, runs tests, fixes bugs — and checks in with you when it needs decisions.</p>
+
+    <h2>Tips for Working with Claude Code</h2>
+
+    <ul class="tips-list">
+      <li>
+        <strong>Be specific about what you want.</strong>
+        "Add a button to download the Excel file" is better than "make it better." The more context you give, the better the result.
+      </li>
+      <li>
+        <strong>Review plans before approving.</strong>
+        When Claude proposes a plan, read it. If something feels off — "why are you changing that file?" — ask. It's much cheaper to fix a plan than to fix code.
+      </li>
+      <li>
+        <strong>Test as you go.</strong>
+        After Claude makes changes, ask it to run the tests: "Run the tests and show me the results." This catches problems early.
+      </li>
+      <li>
+        <strong>If something breaks, describe the error.</strong>
+        Copy the error message and paste it to Claude. "I see this error when I upload a PDF: [error text]." Claude will diagnose and fix it. That's literally what it's best at.
+      </li>
+      <li>
+        <strong>Use your domain knowledge.</strong>
+        "The opening balance for SBI statements sometimes appears in a different row" — this kind of insight from your experience is exactly what makes the tool better. Claude handles the code; you handle the "what should happen."
+      </li>
+      <li>
+        <strong>Save your work with Git.</strong>
+        Periodically ask Claude: "Commit the current changes." This saves a snapshot of your work on GitHub. If anything goes wrong, you can always go back.
+      </li>
+    </ul>
+
+    <h2>Ashish Is On Call</h2>
+
+    <div class="callout callout-tip">
+      <div class="callout-label">You're not alone</div>
+      <p>If you get stuck — whether it's a setup issue, a confusing error, or you're not sure what to tell Claude — reach out to Ashish on WhatsApp or call. Any time. That's what I'm here for. There are no stupid questions, especially when you're learning something new.</p>
+    </div>
+
+    <div class="cta-box">
+      <h3>The moment is coming.</h3>
+      <p>The first time you describe what you want, and Claude writes working code that does exactly that — it clicks. You realize this isn't magic. It's a tool. And you know how to use it.</p>
+      <p style="color: var(--color-cream); font-size: 1.15rem; margin-top: var(--space-lg);">Go build something amazing, Shantanu.</p>
+    </div>
+
+    <!-- Voiceover Script -->
+    <aside class="voiceover-section">
+      <button class="voiceover-toggle" aria-expanded="false">
+        <span class="toggle-icon">&#9654;</span>
+        Voiceover Script — Ashish
+      </button>
+      <div class="voiceover-content">
+        <p>Shantanu, this is it. You're ready. Open your terminal, go to the project folder, type <code>claude</code>, and tell it to read the PRD and plan Phase 1. That's your first real task.</p>
+        <p>Claude will read everything, understand the project, and come back with questions and a plan. Review the plan — if something doesn't make sense, ask. If it looks good, approve it, and Claude starts building.</p>
+        <p>A few tips from my experience. Be specific — "add a download button for the Excel file" beats "make it work better." Always review plans before saying yes. Test as you go — ask Claude to run the tests. And when something breaks — and it will, that's normal — just paste the error message and Claude will fix it.</p>
+        <p>And remember — you have something no developer has. You know what 26AS reconciliation means. You know what a CA needs in their working papers. You know the edge cases because you've dealt with them every tax season. That knowledge is the hard part. The coding? That's Claude's job.</p>
+        <p>I'm right here if you need me. WhatsApp, call, anytime. Now go build something amazing, yaar. I'm proud of you for taking this step.</p>
+        <div class="audio-player" data-page="get-started">Audio narration coming soon</div>
+      </div>
+    </aside>
+
+    <!-- Page Navigation -->
+    <nav class="page-nav">
+      <a href="first-steps.html">
+        <span class="nav-direction">&larr; Previous</span>
+        <span class="nav-title">Your First Claude Code Session</span>
+      </a>
+      <a href="index.html" class="next">
+        <span class="nav-direction">Back to start &rarr;</span>
+        <span class="nav-title">The Problem You Already Know</span>
+      </a>
+    </nav>
+
+  </main>
+
+  <script src="js/main.js"></script>
+</body>
+</html>

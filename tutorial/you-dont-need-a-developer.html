@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>You Don't Need a Developer — Build Your Own Tax Tool</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,300..900&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <nav class="site-nav">
+    <div class="nav-inner">
+      <a href="index.html" class="nav-brand">CA Tax Tool Tutorial</a>
+      <ul class="nav-links">
+        <li><a href="index.html">The Problem</a></li>
+        <li><a href="what-this-unlocks.html">What You'll Build</a></li>
+        <li><a href="you-dont-need-a-developer.html">The Twist</a></li>
+        <li><a href="setup.html">Setup</a></li>
+        <li><a href="first-steps.html">First Steps</a></li>
+        <li><a href="get-started.html">Get Started</a></li>
+      </ul>
+    </div>
+  </nav>
+  <div class="progress-bar"><div class="progress-bar-fill" style="width: 50%"></div></div>
+
+  <main class="page-content">
+
+    <span class="page-label">Step 3 of 6</span>
+    <h1>You Don't Need a Developer</h1>
+    <p class="page-subtitle">The twist: your CA expertise is the hard part. The coding is the easy part now.</p>
+
+    <h2>What Is Claude Code?</h2>
+
+    <p>Imagine a senior software developer sitting next to you. You tell them what you want in plain English — or Hindi, or Hinglish — and they write the code, test it, fix bugs, and explain what they did. You don't need to understand the code. You need to understand the <em>problem</em>.</p>
+
+    <p>That's Claude Code. It's a tool from Anthropic (the AI company) that runs in your terminal — that black window where you type commands. You describe what you want, and it writes working software.</p>
+
+    <h2>Why Domain Expertise Beats Coding Skill</h2>
+
+    <p>Here's something most people get wrong about building software: the hard part isn't writing code. The hard part is knowing <strong>what to build</strong>.</p>
+
+    <p>A developer who doesn't understand CA work would need weeks just to learn what 26AS reconciliation means, why the financial year runs April to March, what Section 194A implies, or why opening balance matters in bank statement parsing. They'd build something that sort of works but misses all the edge cases you deal with every day.</p>
+
+    <p>You already know all of this. You know that banks format PDFs differently. You know what a TDS mismatch looks like. You know that cash deposits over &#8377;10 lakh trigger SFT reporting. You know what questions to ask a client when their AIS doesn't match their bank statements.</p>
+
+    <div class="callout callout-insight">
+      <div class="callout-label">The real equation</div>
+      <p><strong>Your domain knowledge</strong> (what to build, what edge cases matter, what the output should look like) <strong>+ Claude Code</strong> (writes the actual code) <strong>= software that actually works for CAs.</strong></p>
+    </div>
+
+    <h2>What You'll Need: Claude Max</h2>
+
+    <p>Claude Code is available through a <strong>Claude Max subscription</strong> — a monthly plan from Anthropic. This gives you unlimited usage for projects like this one. Think of it as hiring a developer for a fraction of the cost, available 24/7, who never gets tired and never judges you for asking "basic" questions.</p>
+
+    <p>This is a hobby project — there's no deployment pressure, no production deadlines. You're learning a new skill at your own pace, building something genuinely useful for your practice.</p>
+
+    <h2>What "Building with AI" Actually Looks Like</h2>
+
+    <p>Here's a realistic example of how a conversation with Claude Code goes:</p>
+
+    <div class="code-block"><code><span style="color:#89b4fa">You:</span>  I want to parse ICICI bank statement PDFs. The format has
+      Date, Description, Debit, Credit, Balance columns. Dates
+      are in DD/MM/YYYY format. Some descriptions span two lines.
+
+<span style="color:#a6e3a1">Claude:</span> I'll create an ICICI parser. Let me look at the existing
+       parser structure first...
+       [reads files, writes code, adds tests]
+       Done. The parser handles multi-line descriptions and
+       extracts all 5 columns. Want me to run the tests?
+
+<span style="color:#89b4fa">You:</span>  Yes, run the tests. Also, sometimes the opening balance
+      row doesn't have a date — handle that too.
+
+<span style="color:#a6e3a1">Claude:</span> Good catch. I've updated the parser to detect opening
+       balance rows without dates. All 12 tests pass.</code></div>
+
+    <p>Notice what happened: you described the <em>problem domain</em> (ICICI format, date format, multi-line quirk). Claude wrote the code. You caught an edge case from your experience. Claude fixed it. This is the workflow.</p>
+
+    <h2>No Pressure, Just Learning</h2>
+
+    <p>This is a hobby project. Nobody's watching, there are no deadlines, and if something breaks, Claude will fix it. The worst that happens is you learn something. The best that happens is you build a tool that transforms how your office works during tax season.</p>
+
+    <div class="cta-box">
+      <h3>Ready to set up your machine?</h3>
+      <p>The next page walks you through installing everything you need. It takes about 15 minutes.</p>
+      <a href="setup.html" class="cta-link">Let's set up &rarr;</a>
+    </div>
+
+    <!-- Voiceover Script -->
+    <aside class="voiceover-section">
+      <button class="voiceover-toggle" aria-expanded="false">
+        <span class="toggle-icon">&#9654;</span>
+        Voiceover Script — Ashish
+      </button>
+      <div class="voiceover-content">
+        <p>Shantanu, I know what you're thinking — "I'm a CA, not a programmer." And that's exactly why this works. Let me explain.</p>
+        <p>Claude Code is like having a senior developer sitting right next to you. You tell it what you want — in plain English, Hindi, Hinglish, whatever — and it writes the code. You don't need to learn Python or JavaScript or any of that. You need to know what the tool should do. And bhai, you already know that better than any developer ever could.</p>
+        <p>Think about it — a developer would spend weeks just learning what 26AS reconciliation means. You could explain it in five minutes. You know that ICICI puts the date in one format and SBI in another. You know what triggers a mismatch notice. That knowledge — that's the hard part. The coding? That's what Claude does.</p>
+        <p>You'll need a Claude Max subscription — think of it as hiring a developer who's always available and never complains. And this is a hobby project, Shantanu. No pressure, no deadlines. Just you building something cool that happens to be genuinely useful. Let's get your machine set up.</p>
+        <div class="audio-player" data-page="you-dont-need-a-developer">Audio narration coming soon</div>
+      </div>
+    </aside>
+
+    <!-- Page Navigation -->
+    <nav class="page-nav">
+      <a href="what-this-unlocks.html">
+        <span class="nav-direction">&larr; Previous</span>
+        <span class="nav-title">What You'll Build</span>
+      </a>
+      <a href="setup.html" class="next">
+        <span class="nav-direction">Next &rarr;</span>
+        <span class="nav-title">Setting Up Claude Code</span>
+      </a>
+    </nav>
+
+  </main>
+
+  <script src="js/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,399 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard — {{ session.client_name }}{% endblock %}
+
+{% block extra_css %}
+<style>
+    .overview-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        gap: 16px;
+        margin-bottom: 28px;
+    }
+    .overview-card {
+        background: var(--surface);
+        border-radius: 16px;
+        padding: 24px 20px;
+        border: 1px solid var(--border);
+        box-shadow: 0 8px 20px rgba(16, 38, 60, 0.08);
+        text-align: center;
+    }
+    .overview-card .label {
+        color: var(--muted);
+        font-size: 0.85rem;
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+    }
+    .overview-card .value {
+        font-family: "Fraunces", serif;
+        font-size: 1.5rem;
+        font-weight: 600;
+        color: var(--primary);
+        margin: 8px 0 0;
+    }
+    .overview-card .value.positive { color: #2b7a5b; }
+    .overview-card .value.negative { color: #c4653f; }
+
+    .chart-container {
+        position: relative;
+        height: 320px;
+        margin-bottom: 8px;
+    }
+
+    .cat-list { list-style: none; padding: 0; margin: 0; }
+    .cat-item { border-bottom: 1px solid var(--border); }
+    .cat-item:last-child { border-bottom: none; }
+    .cat-row {
+        display: flex;
+        align-items: center;
+        padding: 8px 0;
+        gap: 12px;
+        cursor: pointer;
+        user-select: none;
+    }
+    .cat-row:hover { background: var(--bg); border-radius: 8px; padding-left: 6px; margin-left: -6px; }
+    .cat-toggle {
+        width: 20px;
+        min-width: 20px;
+        font-size: 0.75rem;
+        color: var(--muted);
+        transition: transform 0.2s ease;
+    }
+    .cat-item.open .cat-toggle { transform: rotate(90deg); }
+    .cat-name {
+        width: 160px;
+        min-width: 160px;
+        font-size: 0.88rem;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+    .cat-bar-track {
+        flex: 1;
+        height: 22px;
+        background: var(--bg);
+        border-radius: 6px;
+        overflow: hidden;
+    }
+    .cat-bar-fill {
+        height: 100%;
+        border-radius: 6px;
+        min-width: 3px;
+        transition: width 0.4s ease;
+    }
+    .cat-amount {
+        width: 100px;
+        min-width: 100px;
+        text-align: right;
+        font-size: 0.85rem;
+        color: var(--muted);
+        white-space: nowrap;
+    }
+    .cat-txn-count {
+        width: 50px;
+        min-width: 50px;
+        text-align: center;
+        font-size: 0.78rem;
+        color: var(--muted);
+    }
+    .cat-details {
+        display: none;
+        padding: 4px 0 12px 32px;
+    }
+    .cat-item.open .cat-details { display: block; }
+    .cat-details table {
+        width: 100%;
+        font-size: 0.84rem;
+        margin: 0;
+    }
+    .cat-details th {
+        font-weight: 500;
+        color: var(--muted);
+        font-size: 0.78rem;
+        text-transform: uppercase;
+        letter-spacing: 0.03em;
+    }
+    .cat-details td, .cat-details th {
+        padding: 4px 8px;
+    }
+
+    .flag-item {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 10px 14px;
+        border-radius: 10px;
+        margin-bottom: 8px;
+        font-size: 0.92rem;
+    }
+    .flag-item.warning { background: #fff2d6; color: #6b4a11; }
+    .flag-item.info { background: #e7eef7; color: var(--primary); }
+    .flag-item a { color: inherit; font-weight: 600; }
+
+    .dash-section { margin-bottom: 24px; }
+    .card-subtitle {
+        color: var(--muted);
+        font-size: 0.88rem;
+        margin: -4px 0 16px;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="steps">
+    <span class="step done">1. Upload</span>
+    <span class="step done">2. Review</span>
+    <span class="step active">3. Dashboard</span>
+    <span class="step">4. Download</span>
+</div>
+
+<!-- Client info -->
+<div class="card" style="padding: 14px 28px; margin-bottom: 20px;">
+    <strong>{{ session.client_name }}</strong> &nbsp;|&nbsp;
+    AY {{ session.assessment_year }} &nbsp;|&nbsp;
+    {{ dashboard.accounts|length }} account{{ "s" if dashboard.accounts|length != 1 }}
+</div>
+
+<!-- Overview Cards -->
+<div class="overview-grid">
+    <div class="overview-card">
+        <div class="label">Total Credits</div>
+        <div class="value positive">{{ "{:,.0f}".format(dashboard.overview.total_credits) }}</div>
+    </div>
+    <div class="overview-card">
+        <div class="label">Total Debits</div>
+        <div class="value negative">{{ "{:,.0f}".format(dashboard.overview.total_debits) }}</div>
+    </div>
+    <div class="overview-card">
+        <div class="label">Net Cash Flow</div>
+        <div class="value {% if dashboard.overview.net_cash_flow >= 0 %}positive{% else %}negative{% endif %}">
+            {{ "{:+,.0f}".format(dashboard.overview.net_cash_flow) }}
+        </div>
+    </div>
+    <div class="overview-card">
+        <div class="label">Transactions</div>
+        <div class="value">{{ "{:,}".format(dashboard.overview.transaction_count) }}</div>
+    </div>
+</div>
+
+<!-- Monthly Cash Flow Chart -->
+<div class="card dash-section">
+    <h2 class="card-title">Monthly Cash Flow</h2>
+    <p class="card-subtitle">Deposits vs withdrawals by FY month (April – March)</p>
+    <div class="chart-container">
+        <canvas id="cashFlowChart"></canvas>
+    </div>
+</div>
+
+<!-- Category Breakdown -->
+<div class="split-two dash-section">
+    <div class="card">
+        <h2 class="card-title" style="color: #2b7a5b;">Deposit Categories</h2>
+        {% if dashboard.categories.deposits %}
+        <ul class="cat-list">
+            {% for cat in dashboard.categories.deposits %}
+            <li class="cat-item">
+                <div class="cat-row" onclick="this.parentElement.classList.toggle('open')">
+                    <span class="cat-toggle">&#9654;</span>
+                    <span class="cat-name" title="{{ cat.category }}">{{ cat.category }}</span>
+                    <div class="cat-bar-track">
+                        <div class="cat-bar-fill" style="background: #2b7a5b; opacity: 0.65; width: {{ (cat.total / dashboard.overview.total_credits * 100)|round(1) if dashboard.overview.total_credits > 0 else 0 }}%;"></div>
+                    </div>
+                    <span class="cat-txn-count">{{ cat.transactions|length }}</span>
+                    <span class="cat-amount">{{ "{:,.0f}".format(cat.total) }}</span>
+                </div>
+                <div class="cat-details">
+                    <table>
+                        <tr><th>Date</th><th>Description</th><th>Bank</th><th class="text-right">Amount</th></tr>
+                        {% for txn in cat.transactions %}
+                        <tr>
+                            <td>{{ txn.date }}</td>
+                            <td>{{ txn.description }}</td>
+                            <td>{{ txn.bank }}</td>
+                            <td class="text-right">{{ "{:,.2f}".format(txn.amount) }}</td>
+                        </tr>
+                        {% endfor %}
+                    </table>
+                </div>
+            </li>
+            {% endfor %}
+        </ul>
+        {% else %}
+        <p class="text-muted">No deposits found.</p>
+        {% endif %}
+    </div>
+    <div class="card">
+        <h2 class="card-title" style="color: #c4653f;">Withdrawal Categories</h2>
+        {% if dashboard.categories.withdrawals %}
+        <ul class="cat-list">
+            {% for cat in dashboard.categories.withdrawals %}
+            <li class="cat-item">
+                <div class="cat-row" onclick="this.parentElement.classList.toggle('open')">
+                    <span class="cat-toggle">&#9654;</span>
+                    <span class="cat-name" title="{{ cat.category }}">{{ cat.category }}</span>
+                    <div class="cat-bar-track">
+                        <div class="cat-bar-fill" style="background: #c4653f; opacity: 0.65; width: {{ (cat.total / dashboard.overview.total_debits * 100)|round(1) if dashboard.overview.total_debits > 0 else 0 }}%;"></div>
+                    </div>
+                    <span class="cat-txn-count">{{ cat.transactions|length }}</span>
+                    <span class="cat-amount">{{ "{:,.0f}".format(cat.total) }}</span>
+                </div>
+                <div class="cat-details">
+                    <table>
+                        <tr><th>Date</th><th>Description</th><th>Bank</th><th class="text-right">Amount</th></tr>
+                        {% for txn in cat.transactions %}
+                        <tr>
+                            <td>{{ txn.date }}</td>
+                            <td>{{ txn.description }}</td>
+                            <td>{{ txn.bank }}</td>
+                            <td class="text-right">{{ "{:,.2f}".format(txn.amount) }}</td>
+                        </tr>
+                        {% endfor %}
+                    </table>
+                </div>
+            </li>
+            {% endfor %}
+        </ul>
+        {% else %}
+        <p class="text-muted">No withdrawals found.</p>
+        {% endif %}
+    </div>
+</div>
+
+<!-- Per-Account Summary -->
+<div class="card dash-section">
+    <h2 class="card-title">Account Summary</h2>
+    <div style="overflow-x: auto;">
+        <table>
+            <tr>
+                <th>Bank</th>
+                <th>Account No.</th>
+                <th>Holder</th>
+                <th class="text-right">Opening Bal.</th>
+                <th class="text-right">Total Deposits</th>
+                <th class="text-right">Total Withdrawals</th>
+                <th class="text-right">Closing Bal.</th>
+            </tr>
+            {% for acct in dashboard.accounts %}
+            <tr>
+                <td>{{ acct.bank_name }}</td>
+                <td>{{ acct.account_number }}</td>
+                <td>{{ acct.holder_name }}</td>
+                <td class="text-right">{{ "{:,.2f}".format(acct.opening_balance) }}</td>
+                <td class="text-right" style="color: #2b7a5b;">{{ "{:,.2f}".format(acct.total_deposits) }}</td>
+                <td class="text-right" style="color: #c4653f;">{{ "{:,.2f}".format(acct.total_withdrawals) }}</td>
+                <td class="text-right">{{ "{:,.2f}".format(acct.closing_balance) }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+</div>
+
+<!-- Flags / Attention Items -->
+{% if dashboard.flags.uncategorized_count > 0 or dashboard.flags.large_txn_count > 0 %}
+<div class="card dash-section">
+    <h2 class="card-title">Attention Items</h2>
+    {% if dashboard.flags.uncategorized_count > 0 %}
+    <div class="flag-item warning">
+        <strong>{{ dashboard.flags.uncategorized_count }}</strong> uncategorized transaction{{ "s" if dashboard.flags.uncategorized_count != 1 }} &mdash;
+        <a href="/review/{{ session_id }}">Review &amp; fix</a>
+    </div>
+    {% endif %}
+    {% if dashboard.flags.large_txn_count > 0 %}
+    <div class="flag-item info">
+        <strong>{{ dashboard.flags.large_txn_count }}</strong> transaction{{ "s" if dashboard.flags.large_txn_count != 1 }} above &#8377;1,00,000
+    </div>
+    <div style="overflow-x: auto; margin-top: 8px;">
+        <table>
+            <tr>
+                <th>Date</th>
+                <th>Bank</th>
+                <th>Type</th>
+                <th>Description</th>
+                <th class="text-right">Amount</th>
+            </tr>
+            {% for ltxn in dashboard.flags.large_transactions %}
+            <tr>
+                <td>{{ ltxn.date }}</td>
+                <td>{{ ltxn.bank }}</td>
+                <td>
+                    <span class="badge {% if ltxn.type == 'Credit' %}badge-success{% else %}badge-error{% endif %}">
+                        {{ ltxn.type }}
+                    </span>
+                </td>
+                <td>{{ ltxn.description }}</td>
+                <td class="text-right">{{ "{:,.2f}".format(ltxn.amount) }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+    {% endif %}
+</div>
+{% endif %}
+
+<!-- Download -->
+<div class="card" style="text-align: center; padding: 28px;">
+    <a href="/download/{{ session_id }}/file" class="btn btn-success" style="font-size: 16px; padding: 14px 40px;">
+        Download Bank Summary Excel
+    </a>
+    <div style="margin-top: 16px;">
+        <a href="/review/{{ session_id }}" class="btn btn-secondary btn-sm">Back to Review</a>
+        <a href="/" class="btn btn-secondary btn-sm" style="margin-left: 8px;">New Session</a>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
+<script>
+const chartData = {{ chart_data | tojson }};
+
+new Chart(document.getElementById('cashFlowChart'), {
+    type: 'bar',
+    data: {
+        labels: chartData.labels,
+        datasets: [
+            {
+                label: 'Deposits',
+                data: chartData.deposits,
+                backgroundColor: 'rgba(43, 122, 91, 0.7)',
+                borderColor: '#2b7a5b',
+                borderWidth: 1,
+                borderRadius: 4,
+            },
+            {
+                label: 'Withdrawals',
+                data: chartData.withdrawals,
+                backgroundColor: 'rgba(196, 101, 63, 0.7)',
+                borderColor: '#c4653f',
+                borderWidth: 1,
+                borderRadius: 4,
+            },
+        ],
+    },
+    options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+            legend: { position: 'top' },
+            tooltip: {
+                callbacks: {
+                    label: function(ctx) {
+                        return ctx.dataset.label + ': \u20B9' + new Intl.NumberFormat('en-IN').format(ctx.raw);
+                    }
+                }
+            }
+        },
+        scales: {
+            y: {
+                beginAtZero: true,
+                ticks: {
+                    callback: function(value) {
+                        return '\u20B9' + new Intl.NumberFormat('en-IN', {notation: 'compact'}).format(value);
+                    }
+                }
+            }
+        }
+    }
+});
+</script>
+{% endblock %}

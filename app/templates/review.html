@@ -1,0 +1,160 @@
+{% extends "base.html" %}
+
+{% block title %}Review Categories{% endblock %}
+
+{% block content %}
+<div class="steps">
+    <span class="step done">1. Upload</span>
+    <span class="step active">2. Review</span>
+    <span class="step">3. Dashboard</span>
+    <span class="step">4. Download</span>
+</div>
+
+<div class="card">
+    <div class="section-header" style="border: none; padding-bottom: 0;">
+        <h2 class="card-title" style="margin: 0;">Review Transaction Categories</h2>
+        <form action="/generate/{{ session_id }}" method="post" style="display: inline;">
+            <button type="submit" class="btn btn-success">Generate Summary Excel</button>
+        </form>
+    </div>
+    <p class="text-muted" style="margin-top: 12px;">
+        Review auto-categorized transactions below. Click a category to expand and see transactions.
+        Select transactions and reassign their category using the dropdown.
+    </p>
+</div>
+
+{% for account in accounts %}
+<div class="card account-section">
+    <div class="section-header">
+        <div>
+            <h2 style="font-size: 1.1em;">{{ account.bank_name }} — A/C {{ account.account_number }}</h2>
+            <span class="text-muted">{{ account.holder_name }} | {{ account.transaction_count }} transactions |
+                Opening: {{ "{:,.2f}".format(account.opening_balance) }} |
+                Closing: {{ "{:,.2f}".format(account.closing_balance) }}</span>
+        </div>
+    </div>
+
+    <!-- Deposits -->
+    <div class="deposit-section" style="margin-top: 16px; border-left: 3px solid #2b7a5b; padding-left: 12px;">
+        <h3 style="color: #2b7a5b; font-size: 1em; margin-bottom: 8px;">Deposits</h3>
+        {% for category, txns in account.deposit_groups.items() %}
+        <div class="category-group">
+            <div class="category-header" onclick="toggleCategory(this)">
+                <h4>{{ category }} <span class="badge badge-success">{{ txns|length }} txns</span></h4>
+                <span class="text-right" style="font-weight: 600; color: #2b7a5b;">
+                    {{ "{:,.2f}".format(txns|sum(attribute='credit')|default(0)) }}
+                </span>
+            </div>
+            <div class="category-txns">
+                <form action="/review/{{ session_id }}/update-category" method="post">
+                    <input type="hidden" name="account_index" value="{{ account.index }}">
+                    <table>
+                        <tr><th style="width:30px;"></th><th>Date</th><th>Description</th><th class="text-right">Credit</th><th class="text-right">Balance</th></tr>
+                        {% for txn in txns %}
+                        <tr>
+                            <td><input type="checkbox" class="txn-check" value="{{ txn.index }}"></td>
+                            <td>{{ txn.date }}</td>
+                            <td>{{ txn.description }}</td>
+                            <td class="text-right">{{ "{:,.2f}".format(txn.credit) if txn.credit else "" }}</td>
+                            <td class="text-right">{{ "{:,.2f}".format(txn.balance) if txn.balance else "" }}</td>
+                        </tr>
+                        {% endfor %}
+                    </table>
+                    <div class="reassign-form" style="margin-top: 8px;">
+                        <input type="hidden" name="transaction_indices" class="selected-indices">
+                        <select name="new_category" class="select-inline">
+                            {% for cat in all_deposit_categories %}
+                            <option value="{{ cat }}">{{ cat }}</option>
+                            {% endfor %}
+                            {% for cat in all_withdrawal_categories %}
+                            <option value="{{ cat }}">{{ cat }}</option>
+                            {% endfor %}
+                        </select>
+                        <button type="submit" class="btn btn-sm btn-secondary" onclick="collectChecked(this)">Reassign Selected</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        {% endfor %}
+        {% if not account.deposit_groups %}
+        <p class="text-muted" style="padding: 8px;">No deposits found.</p>
+        {% endif %}
+    </div>
+
+    <!-- Withdrawals -->
+    <div class="withdrawal-section" style="margin-top: 16px; border-left: 3px solid #c4653f; padding-left: 12px;">
+        <h3 style="color: #c4653f; font-size: 1em; margin-bottom: 8px;">Withdrawals</h3>
+        {% for category, txns in account.withdrawal_groups.items() %}
+        <div class="category-group">
+            <div class="category-header" onclick="toggleCategory(this)">
+                <h4>{{ category }} <span class="badge badge-error">{{ txns|length }} txns</span></h4>
+                <span class="text-right" style="font-weight: 600; color: #c4653f;">
+                    {{ "{:,.2f}".format(txns|sum(attribute='debit')|default(0)) }}
+                </span>
+            </div>
+            <div class="category-txns">
+                <form action="/review/{{ session_id }}/update-category" method="post">
+                    <input type="hidden" name="account_index" value="{{ account.index }}">
+                    <table>
+                        <tr><th style="width:30px;"></th><th>Date</th><th>Description</th><th class="text-right">Debit</th><th class="text-right">Balance</th></tr>
+                        {% for txn in txns %}
+                        <tr>
+                            <td><input type="checkbox" class="txn-check" value="{{ txn.index }}"></td>
+                            <td>{{ txn.date }}</td>
+                            <td>{{ txn.description }}</td>
+                            <td class="text-right">{{ "{:,.2f}".format(txn.debit) if txn.debit else "" }}</td>
+                            <td class="text-right">{{ "{:,.2f}".format(txn.balance) if txn.balance else "" }}</td>
+                        </tr>
+                        {% endfor %}
+                    </table>
+                    <div class="reassign-form" style="margin-top: 8px;">
+                        <input type="hidden" name="transaction_indices" class="selected-indices">
+                        <select name="new_category" class="select-inline">
+                            {% for cat in all_withdrawal_categories %}
+                            <option value="{{ cat }}">{{ cat }}</option>
+                            {% endfor %}
+                            {% for cat in all_deposit_categories %}
+                            <option value="{{ cat }}">{{ cat }}</option>
+                            {% endfor %}
+                        </select>
+                        <button type="submit" class="btn btn-sm btn-secondary" onclick="collectChecked(this)">Reassign Selected</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        {% endfor %}
+        {% if not account.withdrawal_groups %}
+        <p class="text-muted" style="padding: 8px;">No withdrawals found.</p>
+        {% endif %}
+    </div>
+</div>
+{% endfor %}
+
+<div class="card" style="text-align: center;">
+    <form action="/generate/{{ session_id }}" method="post">
+        <button type="submit" class="btn btn-success" style="font-size: 16px; padding: 14px 40px;">
+            Generate Summary Excel
+        </button>
+    </form>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+function toggleCategory(el) {
+    const txns = el.parentElement.querySelector('.category-txns');
+    txns.classList.toggle('open');
+}
+
+function collectChecked(btn) {
+    const form = btn.closest('form');
+    const checks = form.querySelectorAll('.txn-check:checked');
+    const indices = Array.from(checks).map(c => c.value);
+    form.querySelector('.selected-indices').value = indices.join(',');
+    if (indices.length === 0) {
+        alert('Please select at least one transaction.');
+        event.preventDefault();
+    }
+}
+</script>
+{% endblock %}

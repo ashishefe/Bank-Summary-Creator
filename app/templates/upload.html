@@ -1,0 +1,86 @@
+{% extends "base.html" %}
+
+{% block title %}Upload Statements{% endblock %}
+
+{% block content %}
+<div class="steps">
+    <span class="step active">1. Upload</span>
+    <span class="step">2. Review</span>
+    <span class="step">3. Dashboard</span>
+    <span class="step">4. Download</span>
+</div>
+
+<div class="card">
+    <h2 class="card-title">Upload Bank Statements</h2>
+    <p class="text-muted" style="margin-bottom: 8px;">
+        Client: <strong>{{ session.client_name }}</strong> | AY: <strong>{{ session.assessment_year }}</strong>
+    </p>
+
+    <form action="/upload/{{ session_id }}" method="post" enctype="multipart/form-data">
+        <div class="form-group">
+            <label for="files">Select PDF files</label>
+            <div class="file-drop">
+                <input type="file" id="files" name="files" accept=".pdf" multiple required>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="password">PDF Password (if any)</label>
+            <input type="text" id="password" name="password" placeholder="Leave blank if not password-protected">
+        </div>
+        <button type="submit" class="btn btn-primary">Upload &amp; Parse</button>
+    </form>
+</div>
+
+{% if upload_results %}
+<div class="card">
+    <h2 class="card-title">Upload Results</h2>
+    {% for result in upload_results %}
+    <div class="alert {% if result.status == 'parsed' %}alert-success{% else %}alert-error{% endif %}">
+        <strong>{{ result.filename }}</strong>
+        {% if result.status == 'parsed' %}
+            — {{ result.bank_name }} — {{ result.transaction_count }} transactions found
+        {% else %}
+            — {{ result.error }}
+        {% endif %}
+        {% for warning in result.warnings %}
+            <br><small style="color: #856404;">Warning: {{ warning }}</small>
+        {% endfor %}
+    </div>
+    {% endfor %}
+</div>
+{% endif %}
+
+{% if session.files %}
+<div class="card">
+    <h2 class="card-title">Uploaded Files ({{ session.files|length }})</h2>
+    <table>
+        <tr>
+            <th>File</th>
+            <th>Bank</th>
+            <th>Status</th>
+            <th>Transactions</th>
+        </tr>
+        {% for f in session.files %}
+        <tr>
+            <td>{{ f.filename }}</td>
+            <td>{{ f.bank_name }}</td>
+            <td>
+                {% if f.status == 'parsed' %}
+                <span class="badge badge-success">Parsed</span>
+                {% else %}
+                <span class="badge badge-error">{{ f.status }}</span>
+                {% endif %}
+            </td>
+            <td>{{ f.transaction_count }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+
+    {% if session.accounts %}
+    <div style="margin-top: 20px;">
+        <a href="/review/{{ session_id }}" class="btn btn-success">Review Categories &amp; Generate</a>
+    </div>
+    {% endif %}
+</div>
+{% endif %}
+{% endblock %}
