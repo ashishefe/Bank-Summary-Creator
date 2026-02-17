@@ -13,18 +13,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-  /* --- Voiceover script expand/collapse --- */
-  document.querySelectorAll('.voiceover-toggle').forEach(btn => {
-    btn.addEventListener('click', () => {
-      const expanded = btn.getAttribute('aria-expanded') === 'true';
-      btn.setAttribute('aria-expanded', String(!expanded));
-      const content = btn.nextElementSibling;
-      if (content && content.classList.contains('voiceover-content')) {
-        content.classList.toggle('is-open', !expanded);
-      }
-    });
-  });
-
   /* --- Copy-to-clipboard for code blocks --- */
   document.querySelectorAll('.code-block').forEach(block => {
     const codeEl = block.querySelector('code');

@@ -87,7 +87,7 @@ Each parser extends `BaseBankParser` (`parsers/base.py`) and returns a `ParseRes
 
 ## Tutorial Website
 
-`tutorial/` contains a 6-page static site that teaches a CA (Shantanu) how to set up Claude Code on Windows and use it to build this project from the PRD. Pages: The Problem → What You'll Build → The Twist → Setup → First Steps → Get Started. Design: editorial/warm professional (Fraunces + Plus Jakarta Sans, cream/navy/amber palette). Each page has a collapsible voiceover script section with placeholder audio players for future ElevenLabs integration.
+`tutorial/` contains a 6-page static site that teaches a CA (Shantanu) how to set up Claude Code on Windows and use it to build this project from the PRD. Pages: The Problem → What You'll Build → The Twist → Setup → First Steps → Get Started. Design: editorial/warm professional (Fraunces + Plus Jakarta Sans, cream/navy/amber palette).
 
 ## GitHub
 
